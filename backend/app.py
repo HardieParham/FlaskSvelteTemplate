@@ -2,27 +2,22 @@ import random
 
 from flask import Flask, send_from_directory
 
-from .blueprints.financials import bp_financials
 
 FRONTEND_PATH = '../frontend/dist'
 
-
-
 def create_app():
+    """Main Flask factory function. Will spin up an instance of the site.
+
+    Returns:
+        Flask: The running flask instance.
+    """
     app=Flask(__name__)
-    app.register_blueprint(bp_financials)
-    
-    # @app.route('/')
-    # def index():
-    #     return '<h1>Hello</h1>'
-    
 
     @app.route("/")
     def base():
         return send_from_directory(FRONTEND_PATH, 'index.html')
 
-    # Path for all the static files (compiled JS/CSS, etc.)
-    @app.route("/<path:path>")
+    @app.route("/<path:path>") # Path for all the static files (JS, CSS, etc.)
     def home(path):
         return send_from_directory(FRONTEND_PATH, path)
 
